@@ -21,10 +21,10 @@ export class QuestaoMultiplaEscolha implements Questao {
 
   calcularNota(respostaOuRespostas: string | string[]): number {
     if (Array.isArray(respostaOuRespostas)) {
-      const corretas = this.opcoesCorretas.filter(opcao => respostaOuRespostas.includes(opcao));
+      const corretas = this.opcoesCorretas.filter(opcao => respostaOuRespostas.find(resposta => opcao === resposta));
       return corretas.length === this.opcoesCorretas.length ? 1 : 0;
     } else {
-      return this.opcoesCorretas.includes(respostaOuRespostas) ? 1 : 0;
+      return this.opcoesCorretas.find(opcao => respostaOuRespostas === opcao) ? 1 : 0;
     }
   }
 }
