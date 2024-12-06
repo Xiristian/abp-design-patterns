@@ -1,4 +1,4 @@
-import { Questao } from '../interface/interface'
+import { Questao } from "../interface/interface";
 
 export class QuestaoDescritiva implements Questao {
   private pergunta: string;
@@ -11,9 +11,7 @@ export class QuestaoDescritiva implements Questao {
     console.log(this.pergunta);
   }
 
-
   calcularNota(respostaOuRespostas: string | string[]): number {
-    console.log("Avaliação manual necessária para a resposta descritiva.");
-    return 0; 
+    return respostaOuRespostas ? 1 : 0;
   }
 }
