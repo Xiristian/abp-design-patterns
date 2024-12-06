@@ -3,6 +3,7 @@ import { QuestaoDescritiva } from './classes/QuestaoDescritiva';
 import { QuestaoObjetiva } from './classes/QuestaoObjetiva';
 import QuestaoFactory from './classes/QuestaoFactory';
 import Avaliacao from './classes/Avaliacao';
+import AvaliacaoBuilder from './classes/AvaliacaoBuilder';
 
 const factory = new QuestaoFactory()
 
@@ -44,6 +45,29 @@ const avaliacao = new Avaliacao()
 avaliacao.adicionaQuestao(questaoMultiplaEscolha);
 avaliacao.adicionaQuestao(questaoDescritiva);
 avaliacao.adicionaQuestao(questaoObjetiva);
+
+const builder = new AvaliacaoBuilder();
+
+const avaliacaoComBuilder = builder
+  .adicionaQuestaoDescritiva("Explique o conceito de encapsulamento em POO.")
+  .adicionaQuestaoObjetiva(
+    "Qual é a capital da Alemanha?",
+    ["Berlim", "Paris", "Madrid", "Lisboa"],
+    "Berlim"
+  )
+  .adicionaQuestaoMultiplaEscolha(
+    "Quais dessas são linguagens de programação funcional?",
+    ["Haskell", "Java", "Python", "Scala"],
+    ["Haskell", "Scala"]
+  )
+  .build();
+
+avaliacaoComBuilder.mostrar();
+console.log(`Nota: ${avaliacaoComBuilder.calcularNota([
+  "Encapsulamento é o conceito de ocultar detalhes internos.",
+  "Berlim",
+  ["Haskell", "Scala"]
+])}`);
 
 avaliacao.mostrar()
 console.log(`Nota: ${avaliacao.calcularNota([["TypeScript", "Java"], "Herança é quando uma classe deriva de outra classe.", "Paris" ])}`)
