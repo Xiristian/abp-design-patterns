@@ -1,13 +1,15 @@
-import { Questao } from '../interface/interface';
-import Avaliacao from './Avaliacao';
-import QuestaoFactory from './QuestaoFactory';
+import { Questao } from "../interface/interface";
+import Avaliacao from "./Avaliacao";
+import QuestaoFactory from "./QuestaoFactory";
 
 export default class AvaliacaoBuilder {
   private questoes: Questao[] = [];
   private factory: QuestaoFactory;
+  private avaliacao: Avaliacao;
 
   constructor() {
     this.factory = new QuestaoFactory();
+    this.avaliacao = new Avaliacao();
   }
 
   public adicionaQuestaoDescritiva(pergunta: string): AvaliacaoBuilder {
@@ -21,7 +23,11 @@ export default class AvaliacaoBuilder {
     opcoes: string[],
     opcaoCorreta: string
   ): AvaliacaoBuilder {
-    const questaoObjetiva = this.factory.criarQuestaoObjetiva(pergunta, opcoes, opcaoCorreta);
+    const questaoObjetiva = this.factory.criarQuestaoObjetiva(
+      pergunta,
+      opcoes,
+      opcaoCorreta
+    );
     this.questoes.push(questaoObjetiva);
     return this;
   }
@@ -31,7 +37,11 @@ export default class AvaliacaoBuilder {
     opcoes: string[],
     opcoesCorretas: string[]
   ): AvaliacaoBuilder {
-    const questaoMultiplaEscolha = this.factory.criarQuestaoMultiplaEscolha(pergunta, opcoes, opcoesCorretas);
+    const questaoMultiplaEscolha = this.factory.criarQuestaoMultiplaEscolha(
+      pergunta,
+      opcoes,
+      opcoesCorretas
+    );
     this.questoes.push(questaoMultiplaEscolha);
     return this;
   }
@@ -41,8 +51,12 @@ export default class AvaliacaoBuilder {
   }
 
   public build(): Avaliacao {
-    const avaliacao = new Avaliacao();
-    this.questoes.forEach((questao) => avaliacao.adicionaQuestao(questao));
-    return avaliacao;
+    this.questoes.forEach((questao) => this.avaliacao.adicionaQuestao(questao));
+    return this.avaliacao;
+  }
+
+  public reset(): void {
+    this.questoes = [];
+    this.avaliacao = new Avaliacao();
   }
 }
